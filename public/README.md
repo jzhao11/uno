@@ -1,0 +1,1 @@
+This folder is used for public JavaScript, CSS, and Pictures.

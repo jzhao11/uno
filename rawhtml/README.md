@@ -1,0 +1,1 @@
+This folder is used for RAW HTML Web Pages.

@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <style type="text/css">
+        .boom{
+            width: 50px;
+            height: 50px;
+            border: solid 1px red;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+
+        .pai
+        {
+            width: 50px;
+            height: 100px;
+            border: solid 1px red;
+            margin-left: 3px;
+            float: left;
+        }
+
+        .new
+        {
+            border: solid 1px blue;
+        }
+        .nu
+        {
+            text-align:center;
+            font-size:24px;
+            margin-top:25px;
+            
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="boom"></div>-->
+    <input type="button" value="shuffle" onclick="shuffle()" />
+    <input type="button" value="draw" onclick="draw()" />
+    <br/>
+	remaining:<div id="old"></div>
+    <div style="clear: both"></div>
+    <hr />
+	my cards:<div id="new"></div>
+</body>
+<script type="text/javascript">
+  
+    var randomCards = [];	//array to store randomized cards
+    var myCards = [];		//array to store my cards
+    
+    /* factory pattern to instantiate cards
+     * number: the number on card
+     * type: spade, club, diamond, heart
+     */
+    var Cards = (function () {
+        var Card = function (number, type) {
+            this.number = number;
+            this.type = type;
+        }
+        return function (number, type) {
+            return new Card(number, type);
+        }
+
+    })()
+    
+    // type: 0-spade, 1-club, 2-diamond, 3-heart, 4-black joker, 5-red joker
+    // number: 0-joker, 11-jack, 12-queen, 13-king
+    function shuffle() {
+        var index = 2;
+        var arr = [];
+        for (var i = 0; i <= 13; i++) {
+            if (i == 0) {
+                arr[0] = new Cards(i, 4);
+                arr[1] = new Cards(i, 5);
+            } else {
+                for (var j = 0; j <= 3; j++) {
+                    arr[index] = new Cards(i, j);
+                    index++;
+                }
+            }
+        }
+        randomCards = sortCards(arr);
+        show();
+    }
+    
+    //shuffle
+    function sortCards(arr) {
+        arr.sort(function (a, b) {
+            return 0.5 - Math.random();
+        })
+        return arr;
+    }
+
+    //get cards
+    function getCards(CardObj) {
+        var k = inCardsIndex(myCards, CardObj);	// k: the index to be inserted
+        myCards.splice(k, 0, CardObj);			// insert the card at index k
+    }
+    
+    /*
+     * calculate the index to be inserted the new card
+     * arr: current cards in hand
+     * obj: newly picked card
+     */
+    function inCardsIndex(arr, obj) {
+        var len = arr && arr.length || 0;
+        if (len == 0) {
+            return 0;
+        }else if (len == 1) {
+            if (obj.number >= arr[0].number) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            var backi = -1;
+            for (var i = 0; i < len; i++) {
+               
+                if (obj.number <= arr[i].number) {
+                    backi = i;
+                    break;
+                } 
+            }
+            if (backi == -1) {
+                backi = len;
+            }
+            return backi;
+        }
+    }
+    
+    function draw() {
+        if (randomCards.length > 0) {
+            getCards(randomCards.shift());
+            show();
+        } else {
+            alert("no cards to draw!");
+        }
+    }
+    
+    function show() {
+        var lenOld = randomCards.length;
+        var lenNew = myCards.length;
+        var html = "";
+        for (var i = 0; i < lenOld; i++) {
+            html += "<div class='pai'><b>" + randomCards[i].type + "</b>-<div class='nu'>" + randomCards[i].number + "</div></div>";
+        }
+        document.getElementById("old").innerHTML=html;
+        html = "";
+        for (var i = 0; i < lenNew; i++) {
+            html += "<div class='pai new'><b>" + myCards[i].type + "</b>-<div class='nu'>" + myCards[i].number + "</div></div>";
+        }
+        document.getElementById("new").innerHTML=html;
+    }
+    show();
+    
+    
+    
+    
+    
+    
+    
+    function chooseColor() {
+    	var word;
+	    while (true) {
+	    	word = prompt("choose the color you want: yellow / green / red / blue");
+	    	if (word == "yellow") {
+	        	alert(word);
+	        	break;
+	        } else if (word == "green") {
+	        	alert(word);
+	        	break;
+	        } else if (word == "red") {
+	        	alert(word);
+	        	break;
+	        } else if (word == "blue") {
+	        	alert(word);
+	        	break;
+	        } else {
+	        	alert("please choose a valid color");
+	        }
+	    }
+	    return word;
+    }
+</script>
+</html>
