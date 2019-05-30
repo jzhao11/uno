@@ -13,9 +13,10 @@ class CreateChannelTable extends Migration
      */
     public function up() {
         Schema::create('channel', function (Blueprint $table) {
-            $table->increments('id');
+            $table->primary(array('game_id', 'user_id'));
             $table->integer('game_id');
             $table->integer('user_id');
+            $table->integer('is_host')->default(0);
         });
     }
 

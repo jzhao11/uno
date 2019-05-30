@@ -193,9 +193,9 @@ $(function() {
     	$("#players").html("");
     	for (var index in users) {
     		$("#players").append(
-				'<tr class="table-warning"><th scope="row">' 
-				+ users[index].user_id + '</th><th>' + users[index].username 
-				+ '</th></tr>'
+				'<tr class="table-warning row-height"><td>' 
+				+ users[index].user_id + '</td><td>' + users[index].username 
+				+ '</td></tr>'
 			);
         }
     }

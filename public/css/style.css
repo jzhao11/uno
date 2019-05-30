@@ -178,3 +178,7 @@ ul {
 	background: rgb(230,241,255);
 	background: linear-gradient(90deg, rgba(230,241,255,1) 0%, rgba(170,206,255,1) 100%);
 }
+
+.row-height {
+	line-height: 0.5em;
+}
